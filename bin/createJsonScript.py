@@ -1,14 +1,14 @@
 import json
 import pathlib
 import pprint
-from mechparser2 import MechParser
+from mechparser import MechParser
 import time
 import uuid
 
 #x = MechParser('/Users/chris/Desktop/mmparser/mechs/3085u/Phoenix/Crusader CRD-7L.mtf')
 #x.parse()
 
-cwd = pathlib.Path.cwd().joinpath('mechs')
+cwd = pathlib.Path.cwd().joinpath('../mechs')
 
 print(cwd.parent)
 
@@ -37,12 +37,12 @@ for f in files:
     objectId = uuid.uuid4().__str__()
     out.update({objectId : y})
 
-with open('all.json', 'w') as f:
+with open('../static/all.json', 'w') as f:
     f.write(json.dumps(out, indent=4))
 
 end = time.time()
 
-with open('failed.txt', 'w') as o:
+with open('../static/failed.txt', 'w') as o:
     for i in failed:
         string = f'{i}\n'
         o.write(string)
