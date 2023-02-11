@@ -1,5 +1,0 @@
-/Users/chris/Desktop/mmparser/mechs/3055U/Wraith TR1.mtf
-/Users/chris/Desktop/mmparser/mechs/Recognition Guide ilClan/Vol 24/Atlas AS7-K-DC.mtf
-/Users/chris/Desktop/mmparser/mechs/Recognition Guide ilClan/Vol 24/Atlas AS8-KE.mtf
-/Users/chris/Desktop/mmparser/mechs/Recognition Guide ilClan/Vol 20/Mastodon Prime.mtf
-/Users/chris/Desktop/mmparser/mechs/Recognition Guide ilClan/Vol 19/Iron Cheetah Prime.mtf

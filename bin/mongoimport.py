@@ -1,25 +1,21 @@
 import json
-import keyring
 import pymongo as pymongo
+import yaml
 
-usr = "chrisDFA"
-psw = keyring.get_password("mongoDB", usr)
+with open('../../config.yaml', 'r') as file:
+    config = yaml.safe_load(file)
 
-uri = f"mongodb+srv://chrisDFA:{psw}@cluster0.h24miqs.mongodb.net/?retryWrites=true&w=majority"
-print(uri)
+uri = config['uri']
 
 client = pymongo.MongoClient(uri)
-
-print(client.list_database_names())
 
 db = client.DFA
 collections = db.battlemech
 
-
-with open('/Users/chris/Desktop/mmparser/all.json', 'r') as f:
+with open('../static/all2.json', 'r') as f:
     json_file = json.load(f)
 
-for k,v in json_file.items():
-    print(k)
-    rec = collections.insert_one(v)
-    print(rec)
+
+rec = [collections.insert_one(v) for k,v in json_file.items()]
+
+print(rec)
