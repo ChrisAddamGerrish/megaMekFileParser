@@ -36,6 +36,8 @@ class MechParser():
             if len(line) <1:
                 break
             ln = line.lower().replace("\n", "")
+            if ln == '-empty-':
+                ln = None
             equipment.append(ln)
             line = file.readline()
             continue
@@ -60,13 +62,42 @@ class MechParser():
                         if "armor" in ln:
 
                             if ln.startswith('armor'):
-                                self.armor.update({"armor type": self.get_item(ln, 'r')})
+                                self.armor.update({"type": self.get_item(ln, 'r')})
                             else:
-                                self.armor.update({self.get_item(ln, 'l'): self.get_item(ln, 'r')})
+                                armor_location, armor_value = (self.get_item(ln, 'l'), self.get_item(ln, 'r'))
+                                armor_location_check = armor_location.split(' ')
+                                armor_key = None
+                                match armor_location_check[0]:
+                                    case 'la':
+                                        armor_key = 'left arm'
+                                    case 'ra':
+                                        armor_key = 'right arm'
+                                    case 'lt':
+                                        armor_key = 'left torso'
+                                    case 'rt':
+                                        armor_key = 'right torso'
+                                    case 'ct':
+                                        armor_key = 'center torso'
+                                    case 'hd':
+                                        armor_key = 'head'
+                                    case 'll':
+                                        armor_key = 'left left'
+                                    case 'rl':
+                                        armor_key = 'right leg'
+                                    case 'rtl':
+                                        armor_key = 'rear left torso'
+                                    case 'rtr':
+                                        armor_key = 'rear right torso'
+                                    case 'rtc':
+                                        armor_key = 'rear center torso'
+
+                                self.armor.update({armor_key: armor_value})
 
                         elif "weapons:" in ln:
                             scans: int = int(self.get_item(ln, 'r'))
 
+
+                            #left_arm = {'left arm' : []}
                             left_arm = []
                             right_arm = []
                             left_torso = []
@@ -75,7 +106,14 @@ class MechParser():
                             head = []
                             left_leg = []
                             right_leg = []
-
+                            weapon_location_lists = [left_arm,
+                                                    right_arm,
+                                                    left_torso,
+                                                    right_torso,
+                                                    center_torso,
+                                                    head,
+                                                    left_leg,
+                                                    right_leg,]
                             for i in range(scans):
                                 line = f.readline()
                                 key_text = line.split(",")[1].replace("\n", "")
@@ -100,14 +138,11 @@ class MechParser():
                                     case 'right leg':
                                         right_leg.append(v)
 
-                            self.weapons.update({'left arm': left_arm})
-                            self.weapons.update({'right arm': right_arm})
-                            self.weapons.update({'left torso': left_torso})
-                            self.weapons.update({'right torso': right_torso})
-                            self.weapons.update({'center torso': center_torso})
-                            self.weapons.update({'head': head})
-                            self.weapons.update({'left leg': left_leg})
-                            self.weapons.update({'right leg': right_leg})
+                            for idx, location in enumerate(self.mech_locs):
+                                if weapon_location_lists[idx].__len__() == 0:
+                                    self.weapons.update({location : None})
+                                else:
+                                    self.weapons.update({location : weapon_location_lists[idx] })
 
                         elif ln.replace(":", "") in self.mech_locs:
                             self.parse_locations(ln, file=f)

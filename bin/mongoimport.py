@@ -16,6 +16,6 @@ with open('../static/all2.json', 'r') as f:
     json_file = json.load(f)
 
 
-rec = [collections.insert_one(v) for k,v in json_file.items()]
+rec = {collections.insert_one(v) for k,v in json_file.items()}
 
 print(rec)
