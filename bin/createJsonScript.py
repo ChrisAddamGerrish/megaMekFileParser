@@ -22,8 +22,8 @@ for f in files:
     x = MechParser(f)
     try:
         x.parse()
-    except:
-        failed.append(f)
+    except Exception as e:
+        failed.append(f'{f} ; {e}')
 
     y = dict(x.mech)
 

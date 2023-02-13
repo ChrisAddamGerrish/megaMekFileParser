@@ -12,6 +12,8 @@ client = pymongo.MongoClient(uri)
 db = client.DFA
 collections = db.battlemech
 
+collections.delete_many({})
+
 with open('../static/all2.json', 'r') as f:
     json_file = json.load(f)
 
