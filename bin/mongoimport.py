@@ -14,7 +14,7 @@ collections = db.battlemech
 
 collections.delete_many({})
 
-with open('../static/all2.json', 'r') as f:
+with open('../static/all.json', 'r') as f:
     json_file = json.load(f)
 
 

@@ -34,12 +34,12 @@ for f in files:
     objectId = uuid.uuid4().__str__()
     out.update({objectId : y})
 
-with open('../static/all2.json', 'w') as f:
+with open('../static/all.json', 'w') as f:
     f.write(json.dumps(out, indent=4))
 
 end = time.time()
 
-with open('../static/failed2.txt', 'w') as o:
+with open('../static/failed.txt', 'w') as o:
     for i in failed:
         string = f'{i}\n'
         o.write(string)
