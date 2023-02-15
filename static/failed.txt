@@ -1,5 +1,0 @@
-/Users/chris/Desktop/mmparser/bin/../mechs/3055U/Wraith TR1.mtf ; 'utf-8' codec can't decode byte 0x96 in position 2564: invalid start byte
-/Users/chris/Desktop/mmparser/bin/../mechs/Recognition Guide ilClan/Vol 24/Atlas AS7-K-DC.mtf ; 'utf-8' codec can't decode bytes in position 2099-2100: invalid continuation byte
-/Users/chris/Desktop/mmparser/bin/../mechs/Recognition Guide ilClan/Vol 24/Atlas AS8-KE.mtf ; 'utf-8' codec can't decode bytes in position 2145-2146: invalid continuation byte
-/Users/chris/Desktop/mmparser/bin/../mechs/Recognition Guide ilClan/Vol 20/Mastodon Prime.mtf ; 'utf-8' codec can't decode byte 0xf6 in position 2581: invalid start byte
-/Users/chris/Desktop/mmparser/bin/../mechs/Recognition Guide ilClan/Vol 19/Iron Cheetah Prime.mtf ; 'utf-8' codec can't decode bytes in position 4673-4674: invalid continuation byte

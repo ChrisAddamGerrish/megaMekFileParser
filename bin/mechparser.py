@@ -120,16 +120,24 @@ class MechParser():
                                 line = f.readline()
                                 key_text = line.split(",")[1].replace("\n", "")
                                 k = key_text.strip().lower()
+
                                 if 'front' in k:
                                     k = k.replace('front','').strip()
                                 elif'rear' in k:
                                     k = f"{k.replace('rear','').strip()} (r)"
+
                                 v = line.split(",")[0].replace("\n", "").strip().lower()
+
                                 if ('(r)') in v:
                                     v = v.replace('(r)',"").strip()
-
-
-                                weapons_locations[k].append(v)
+                                try:
+                                    tmp_wpn_split = v.split(" ")
+                                    wpn_count = tmp_wpn_split[0]
+                                    wpn = " ".join(tmp_wpn_split[1:])
+                                    for n in range(int(wpn_count)):
+                                        weapons_locations[k].append(wpn)
+                                except Exception as e:
+                                    weapons_locations[k].append(v)
 
                             for k, v in weapons_locations.items():
                                 if len(v) == 0:
