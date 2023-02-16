@@ -1,383 +1,383 @@
-weapons
-ac10
-ac10p
-ac2
-ac20
-ac5
-ams
-antibattlearmor pods bpods
-antimissile system
-ap gauss rifle
-arrow iv
-atm 12
-atm 3
-atm 6
-atm 9
-autocannon10
-autocannon2
-autocannon20
-autocannon5
-battlemech taser
-binary laser blazer cannon
-blazer cannon
-bombast laser
-bpod
-c3 computer master
-c3 master boosted with tag
-c3 master with tag
-c3 remote sensor launcher
-cargo 05 tons
-cargo 1 ton
-chainsaw
-clactiveprobe
-clan light tag
-clan tag
-clantimissilesystem
-clantipersonnelpod
-clapgaussrifle
-clatm12
-clatm3
-clatm6
-clatm9
-clbpod
-clecmsuite
-clerflamer
-clerlargelaser
-clermediumlaser
-clerppc
-clersmalllaser
-clflamer
-clgaussrifle
-clhag20
-clhag30
-clhag40
-clheavylargelaser
-clheavymediumlaser
-clheavysmalllaser
-cllargepulselaser
-cllbxac10
-cllbxac20
-cllightactiveprobe
-cllrm10
-cllrm15
-cllrm20
-clmediumpulselaser
-clmg
-clmicropulselaser
-clplasmacannon
-clrocketlauncher15prototype
-clrotaryac2
-clrotaryac5
-clsmallpulselaser
-clsrm2
-clsrm4
-clsrm6
-clstreaklrm10
-clstreaklrm15
-clstreaksrm4
-clstreaksrm6
-clultraac10
-clultraac20
-enhanced lrm 10
-enhanced lrm 5
-enhanced ppc
-er flamer
-er large laser
-er large laser prototype
-er large pulse laser
-er medium laser
-er medium pulse laser
-er micro laser
-er ppc
-er small laser
-er small pulse laser
-extended lrm 10
-extended lrm 15
-extended lrm 20
-flamer
-flamer vehicle
-fluid gun
-gauss rifle
-hag20
-hag30
-hag40
-hatchet
-heavy flamer
-heavy gauss rifle
-heavy large laser
-heavy machine gun
-heavy machine gun array
-heavy medium laser
-heavy ppc
-heavy rifle
-heavy small laser
-hvac10
-hyper velocity auto cannon10
-iatm 12
-iatm 3
-iatm 9
-improved autocannon10
-improved autocannon5
-improved gauss rifle
-improved heavy gauss rifle
-improved heavy large laser
-improved heavy medium laser
-improved heavy small laser
-improved large laser
-improved lrm 15
-improved lrm 20
-improved srm 6
-inarc
-is coolant pod
-isac10
-isac2
-isac20
-isac5
-isangelecm
-isantimissilesystem
-isarrowivsystem
-isbeagleactiveprobe
-isblazer
-isbloodhoundactiveprobe
-isbombastlaser
-isbpod
-isc3boostedsystemslaveunit
-isc3mastercomputer
-isc3remotesensorlauncher
-isc3slaveunit
-ischaffpod
-iseherppc
-iserflamer
-iserlargelaser
-isermediumlaser
-iserppc
-isersmalllaser
-isextendedlrm10
-isflamer
-isfluidgun
-isgaussrifle
-isgaussrifleprototype
-isguardianecm
-isheavyflamer
-isheavygaussrifle
-isheavyppc
-isheavyrifle
-isimprovedc3cpu
-isimprovedheavygaussrifle
-isimprovednarc
-islac2
-islac5
-islargelaser
-islargepulselaser
-islargevsplaser
-islargexpulselaser
-islaserantimissilesystem
-islbxac10
-islbxac10prototype
-islbxac2
-islbxac20
-islbxac5
-islifthoist
-islightgaussrifle
-islightmg
-islightppc
-islmga
-islongtomcannon
-islppc
-islrm10
-islrm15
-islrm20
-islrm5
-ismachine gun
-ismass
-ismediumlaser
-ismediumpulselaser
-ismediumpulselaserprototype
-ismediumvibroblade
-ismediumvsplaser
-ismediumxpulselaser
-ismektaser
-ismg
-ismga
-ismml3
-ismml5
-ismml7
-ismml9
-ismpod
-ismrm10
-ismrm20
-ismrm30
-ismrm40
-isnarcbeacon
-isplasmarifle
-isppc
-isremotesensordispenser
-isrocketlauncher10
-isrocketlauncher15
-isrocketlauncher20
-isrotaryac2
-isrotaryac5
-issbgr
-issmalllaser
-issmallpulselaser
-issmallshield
-issmallvibroblade
-issmallvsplaser
-issmallxpulselaser
-issniperartcannon
-issnppc
-issrm2
-issrm4
-issrm4 os
-issrm6
-issrt4
-issrt6
-isstreaksrm2
-isstreaksrm4
-isstreaksrm6
-istag
-isthunderbolt15
-isthunderbolt20
-istsempcannon
-isultraac10
-isultraac20
-isultraac5
-lac2
-lac5
-large laser
-large pulse laser
-large reengineered laser
-large vsp
-large vsp laser
-large xpulse laser
-laser ams
-lb 10x ac
-lb 20x ac
-lb 2x ac
-lb 5x ac
-lift hoist
-light ac2
-light ac5
-light auto cannon2
-light auto cannon5
-light gauss rifle
-light machine gun
-light machine gun array
-light ppc
-light tag
-light tag clan
-long tom cannon
-lrm 10
-lrm 15
-lrm 20
-lrm 5
-lrt 10
-lrt 15
-lrt 5
-mace
-machine gun
-machine gun array
-magshot
-mech mortar 4
-mech mortar 8
-mech taser
-medium chem laser
-medium laser
-medium pulse laser
-medium reengineered laser
-medium vsp
-medium vsp laser
-medium xpulse laser
-micro pulse laser
-mml 3
-mml 5
-mml 7
-mml 9
-mortar 4
-mortar 8
-mpod
-mrm 10
-mrm 20
-mrm 30
-mrm 40
-nail gun
-nailrivet gun
-narc
-narc ios
-particle cannon
-plasma cannon
-plasma rifle
-ppc
-ppcp
-primitive prototype ppc
-protomech ac2
-protomech ac4
-protomech ac8
-prototype er medium laser
-prototype er small laser
-prototype lb 10x autocannon
-prototype rocket launcher 20
-prototype streak srm 4
-prototype streak srm 6
-prototype ultra autocannon10
-retractable blade
-rifle cannon heavy
-risc advanced point defense system
-rocket launcher 10
-rocket launcher 10 pp
-rocket launcher 15
-rocket launcher 20
-rotary ac2
-rotary ac5
-searchlight
-silver bullet gauss rifle
-small laser
-small pulse laser
-small reengineered laser
-small vsp
-small vsp laser
-small xpulse laser
-sniper
-sniper cannon
-snubnose ppc
-spikes
-srm 2
-srm 2 ios
-srm 2 os
-srm 4
-srm 4 ios
-srm 6
-srm 6 ios
-srm 6 os
-srt 2
-srt 4
-srt 6
-streak lrm 10
-streak lrm 15
-streak lrm 20
-streak lrm 5
-streak srm 2
-streak srm 2 ios
-streak srm 2 os
-streak srm 4
-streak srm 4 ios
-streak srm 4 os
-streak srm 6
-sword
-tag
-tag clan
-taser
-thumper
-thumper cannon
-thunderbolt 10
-thunderbolt 15
-thunderbolt 20
-thunderbolt 5
-tsemp cannon
-tsemp oneshot
-ultra ac10
-ultra ac2
-ultra ac20
-ultra ac5
-vehicle flamer
-vehicular grenade launcher
+﻿"weapons,"
+"ac10,"
+"ac10p,"
+"ac2,"
+"ac20,"
+"ac5,"
+"ams,"
+"antibattlearmor pods bpods,"
+"antimissile system,"
+"ap gauss rifle,"
+"arrow iv,"
+"atm 12,"
+"atm 3,"
+"atm 6,"
+"atm 9,"
+"autocannon10,"
+"autocannon2,"
+"autocannon20,"
+"autocannon5,"
+"battlemech taser,"
+"binary laser blazer cannon,"
+"blazer cannon,"
+"bombast laser,"
+"bpod,"
+"c3 computer master,"
+"c3 master boosted with tag,"
+"c3 master with tag,"
+"c3 remote sensor launcher,"
+"cargo 05 tons,"
+"cargo 1 ton,"
+"chainsaw,"
+"clactiveprobe,"
+"clan light tag,"
+"clan tag,"
+"clantimissilesystem,"
+"clantipersonnelpod,"
+"clapgaussrifle,"
+"clatm12,"
+"clatm3,"
+"clatm6,"
+"clatm9,"
+"clbpod,"
+"clecmsuite,"
+"clerflamer,"
+"clerlargelaser,"
+"clermediumlaser,"
+"clerppc,"
+"clersmalllaser,"
+"clflamer,"
+"clgaussrifle,"
+"clhag20,"
+"clhag30,"
+"clhag40,"
+"clheavylargelaser,"
+"clheavymediumlaser,"
+"clheavysmalllaser,"
+"cllargepulselaser,"
+"cllbxac10,"
+"cllbxac20,"
+"cllightactiveprobe,"
+"cllrm10,"
+"cllrm15,"
+"cllrm20,"
+"clmediumpulselaser,"
+"clmg,"
+"clmicropulselaser,"
+"clplasmacannon,"
+"clrocketlauncher15prototype,"
+"clrotaryac2,"
+"clrotaryac5,"
+"clsmallpulselaser,"
+"clsrm2,"
+"clsrm4,"
+"clsrm6,"
+"clstreaklrm10,"
+"clstreaklrm15,"
+"clstreaksrm4,"
+"clstreaksrm6,"
+"clultraac10,"
+"clultraac20,"
+"enhanced lrm 10,"
+"enhanced lrm 5,"
+"enhanced ppc,"
+"er flamer,"
+"er large laser,"
+"er large laser prototype,"
+"er large pulse laser,"
+"er medium laser,"
+"er medium pulse laser,"
+"er micro laser,"
+"er ppc,"
+"er small laser,"
+"er small pulse laser,"
+"extended lrm 10,"
+"extended lrm 15,"
+"extended lrm 20,"
+"flamer,"
+"flamer vehicle,"
+"fluid gun,"
+"gauss rifle,"
+"hag20,"
+"hag30,"
+"hag40,"
+"hatchet,"
+"heavy flamer,"
+"heavy gauss rifle,"
+"heavy large laser,"
+"heavy machine gun,"
+"heavy machine gun array,"
+"heavy medium laser,"
+"heavy ppc,"
+"heavy rifle,"
+"heavy small laser,"
+"hvac10,"
+"hyper velocity auto cannon10,"
+"iatm 12,"
+"iatm 3,"
+"iatm 9,"
+"improved autocannon10,"
+"improved autocannon5,"
+"improved gauss rifle,"
+"improved heavy gauss rifle,"
+"improved heavy large laser,"
+"improved heavy medium laser,"
+"improved heavy small laser,"
+"improved large laser,"
+"improved lrm 15,"
+"improved lrm 20,"
+"improved srm 6,"
+"inarc,"
+"is coolant pod,"
+"isac10,"
+"isac2,"
+"isac20,"
+"isac5,"
+"isangelecm,"
+"isantimissilesystem,"
+"isarrowivsystem,"
+"isbeagleactiveprobe,"
+"isblazer,"
+"isbloodhoundactiveprobe,"
+"isbombastlaser,"
+"isbpod,"
+"isc3boostedsystemslaveunit,"
+"isc3mastercomputer,"
+"isc3remotesensorlauncher,"
+"isc3slaveunit,"
+"ischaffpod,"
+"iseherppc,"
+"iserflamer,"
+"iserlargelaser,"
+"isermediumlaser,"
+"iserppc,"
+"isersmalllaser,"
+"isextendedlrm10,"
+"isflamer,"
+"isfluidgun,"
+"isgaussrifle,"
+"isgaussrifleprototype,"
+"isguardianecm,"
+"isheavyflamer,"
+"isheavygaussrifle,"
+"isheavyppc,"
+"isheavyrifle,"
+"isimprovedc3cpu,"
+"isimprovedheavygaussrifle,"
+"isimprovednarc,"
+"islac2,"
+"islac5,"
+"islargelaser,"
+"islargepulselaser,"
+"islargevsplaser,"
+"islargexpulselaser,"
+"islaserantimissilesystem,"
+"islbxac10,"
+"islbxac10prototype,"
+"islbxac2,"
+"islbxac20,"
+"islbxac5,"
+"islifthoist,"
+"islightgaussrifle,"
+"islightmg,"
+"islightppc,"
+"islmga,"
+"islongtomcannon,"
+"islppc,"
+"islrm10,"
+"islrm15,"
+"islrm20,"
+"islrm5,"
+"ismachine gun,"
+"ismass,"
+"ismediumlaser,"
+"ismediumpulselaser,"
+"ismediumpulselaserprototype,"
+"ismediumvibroblade,"
+"ismediumvsplaser,"
+"ismediumxpulselaser,"
+"ismektaser,"
+"ismg,"
+"ismga,"
+"ismml3,"
+"ismml5,"
+"ismml7,"
+"ismml9,"
+"ismpod,"
+"ismrm10,"
+"ismrm20,"
+"ismrm30,"
+"ismrm40,"
+"isnarcbeacon,"
+"isplasmarifle,"
+"isppc,"
+"isremotesensordispenser,"
+"isrocketlauncher10,"
+"isrocketlauncher15,"
+"isrocketlauncher20,"
+"isrotaryac2,"
+"isrotaryac5,"
+"issbgr,"
+"issmalllaser,"
+"issmallpulselaser,"
+"issmallshield,"
+"issmallvibroblade,"
+"issmallvsplaser,"
+"issmallxpulselaser,"
+"issniperartcannon,"
+"issnppc,"
+"issrm2,"
+"issrm4,"
+"issrm4 os,"
+"issrm6,"
+"issrt4,"
+"issrt6,"
+"isstreaksrm2,"
+"isstreaksrm4,"
+"isstreaksrm6,"
+"istag,"
+"isthunderbolt15,"
+"isthunderbolt20,"
+"istsempcannon,"
+"isultraac10,"
+"isultraac20,"
+"isultraac5,"
+"lac2,"
+"lac5,"
+"large laser,"
+"large pulse laser,"
+"large reengineered laser,"
+"large vsp,"
+"large vsp laser,"
+"large xpulse laser,"
+"laser ams,"
+"lb 10x ac,"
+"lb 20x ac,"
+"lb 2x ac,"
+"lb 5x ac,"
+"lift hoist,"
+"light ac2,"
+"light ac5,"
+"light auto cannon2,"
+"light auto cannon5,"
+"light gauss rifle,"
+"light machine gun,"
+"light machine gun array,"
+"light ppc,"
+"light tag,"
+"light tag clan,"
+"long tom cannon,"
+"lrm 10,"
+"lrm 15,"
+"lrm 20,"
+"lrm 5,"
+"lrt 10,"
+"lrt 15,"
+"lrt 5,"
+"mace,"
+"machine gun,"
+"machine gun array,"
+"magshot,"
+"mech mortar 4,"
+"mech mortar 8,"
+"mech taser,"
+"medium chem laser,"
+"medium laser,"
+"medium pulse laser,"
+"medium reengineered laser,"
+"medium vsp,"
+"medium vsp laser,"
+"medium xpulse laser,"
+"micro pulse laser,"
+"mml 3,"
+"mml 5,"
+"mml 7,"
+"mml 9,"
+"mortar 4,"
+"mortar 8,"
+"mpod,"
+"mrm 10,"
+"mrm 20,"
+"mrm 30,"
+"mrm 40,"
+"nail gun,"
+"nailrivet gun,"
+"narc,"
+"narc ios,"
+"particle cannon,"
+"plasma cannon,"
+"plasma rifle,"
+"ppc,"
+"ppcp,"
+"primitive prototype ppc,"
+"protomech ac2,"
+"protomech ac4,"
+"protomech ac8,"
+"prototype er medium laser,"
+"prototype er small laser,"
+"prototype lb 10x autocannon,"
+"prototype rocket launcher 20,"
+"prototype streak srm 4,"
+"prototype streak srm 6,"
+"prototype ultra autocannon10,"
+"retractable blade,"
+"rifle cannon heavy,"
+"risc advanced point defense system,"
+"rocket launcher 10,"
+"rocket launcher 10 pp,"
+"rocket launcher 15,"
+"rocket launcher 20,"
+"rotary ac2,"
+"rotary ac5,"
+"searchlight,"
+"silver bullet gauss rifle,"
+"small laser,"
+"small pulse laser,"
+"small reengineered laser,"
+"small vsp,"
+"small vsp laser,"
+"small xpulse laser,"
+"sniper,"
+"sniper cannon,"
+"snubnose ppc,"
+"spikes,"
+"srm 2,"
+"srm 2 ios,"
+"srm 2 os,"
+"srm 4,"
+"srm 4 ios,"
+"srm 6,"
+"srm 6 ios,"
+"srm 6 os,"
+"srt 2,"
+"srt 4,"
+"srt 6,"
+"streak lrm 10,"
+"streak lrm 15,"
+"streak lrm 20,"
+"streak lrm 5,"
+"streak srm 2,"
+"streak srm 2 ios,"
+"streak srm 2 os,"
+"streak srm 4,"
+"streak srm 4 ios,"
+"streak srm 4 os,"
+"streak srm 6,"
+"sword,"
+"tag,"
+"tag clan,"
+"taser,"
+"thumper,"
+"thumper cannon,"
+"thunderbolt 10,"
+"thunderbolt 15,"
+"thunderbolt 20,"
+"thunderbolt 5,"
+"tsemp cannon,"
+"tsemp oneshot,"
+"ultra ac10,"
+"ultra ac2,"
+"ultra ac20,"
+"ultra ac5,"
+"vehicle flamer,"
+"vehicular grenade launcher,"
