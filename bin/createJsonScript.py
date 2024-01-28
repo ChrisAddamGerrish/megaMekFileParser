@@ -1,11 +1,10 @@
 import json
 import pathlib
-import pprint
-from mechparser import MechParser
+from MegaMechFileParser.mechparser import MechParser
 import time
 import uuid
 
-cwd = pathlib.Path.cwd().joinpath('../mechs')
+cwd = pathlib.Path.cwd().joinpath('../static/megamexfiles')
 
 print(cwd.parent)
 
@@ -14,12 +13,13 @@ p = pathlib.Path(cwd).rglob('*.mtf')
 files = [x for x in p if x.is_file()]
 i = 0
 out = {}
-failed =[]
+failed = []
 
 start = time.time()
 for f in files:
     print(f.relative_to(cwd.parent))
     x = MechParser(f)
+
     try:
         x.parse()
     except Exception as e:

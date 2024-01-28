@@ -1,8 +1,11 @@
 import pathlib
+from pprint import pprint
 
-from mechparser import MechParser
-p = pathlib.Path('/Users/chris/Desktop/mmparser/mechs/ToS/ToS Kaumberg/Phoenix PX-1KR.mtf')
+from MegaMechFileParser.mechparser import MechParser
+
+p = pathlib.Path('/Users/chris/Desktop/mmparser/static/megamexfiles/3050U/Vindicator VND-5L.mtf')
 
 x = MechParser(p)
 
 x.parse()
+pprint(dict(x.mech))
