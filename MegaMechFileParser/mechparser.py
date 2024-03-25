@@ -2,9 +2,10 @@ from collections import OrderedDict
 from typing import Optional
 import pathlib
 import copy
-from MegaMechFileParser.utils.armor_config import armor_config_lookup
-from MegaMechFileParser.utils.equipment_locations import equip_config_lookup
-from MegaMechFileParser.utils.weapon_locations import weapon_location_lookup
+from MegaMechFileParser.utils.base.armor_config import armor_config_lookup
+from MegaMechFileParser.utils.base.equipment_locations import equip_config_lookup
+from MegaMechFileParser.utils.base.weapon_locations import weapon_location_lookup
+from MegaMechFileParser.utils.base.mtf_alias_utils import standardize_mta_item_name
 
 
 class MechParser:
@@ -119,9 +120,9 @@ class MechParser:
                                     wpn_count = tmp_wpn_split[0]
                                     wpn = " ".join(tmp_wpn_split[1:])
                                     for n in range(int(wpn_count)):
-                                        weapons_locations[weapon_location].append(wpn)
+                                        weapons_locations[weapon_location].append(standardize_mta_item_name(wpn))
                                 except ValueError:
-                                    weapons_locations[weapon_location].append(weapon)
+                                    weapons_locations[weapon_location].append(standardize_mta_item_name(weapon))
 
                             for weapon_location, weapon in weapons_locations.items():
                                 if len(weapon) == 0:
