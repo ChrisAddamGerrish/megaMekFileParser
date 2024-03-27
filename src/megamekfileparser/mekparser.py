@@ -11,7 +11,7 @@ class MekParser:
     def __init__(self, mtffilepath):
 
         if mtffilepath is None:
-            self.mtffilepath = None
+            self.filepath = None
         else:
             self.filepath: pathlib.Path = mtffilepath
 
