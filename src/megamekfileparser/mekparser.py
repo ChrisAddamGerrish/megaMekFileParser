@@ -2,10 +2,9 @@ from collections import OrderedDict
 from typing import Optional
 import pathlib
 import copy
-from src.megamekfileparser.utils.base.armor_config import armor_config_lookup
-from src.megamekfileparser.utils.base.equipment_locations import equip_config_lookup
-from src.megamekfileparser.utils.base.weapon_locations import weapon_location_lookup
-
+from megamekfileparser.utils.base.armor_config import armor_config_lookup
+from megamekfileparser.utils.base.equipment_locations import equip_config_lookup
+from megamekfileparser.utils.base.weapon_locations import weapon_location_lookup
 
 
 class MekParser:
