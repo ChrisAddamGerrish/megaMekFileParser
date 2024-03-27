@@ -3,7 +3,7 @@ import pymongo as pymongo
 import yaml
 import time
 
-with open('../../config.yaml', 'r') as file:
+with open('../config.yaml', 'r') as file:
     config = yaml.safe_load(file)
 
 uri = config['uri']

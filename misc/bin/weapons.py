@@ -3,7 +3,7 @@ import csv
 import pymongo
 import yaml
 
-with open('../../config.yaml', 'r') as file:
+with open('../config.yaml', 'r') as file:
     config = yaml.safe_load(file)
 uri = config['uri']
 
@@ -22,7 +22,7 @@ for i in mechs:
         if v:
             weapons.update(v)
 
-with open(file='/Users/chris/Desktop/mmparser/static/wpnslist.csv', mode='w', newline='') as file:
+with open(file='/misc/static/wpnslist.csv', mode='w', newline='') as file:
     writer = csv.writer(file, delimiter='|', dialect='excel')
     writer.writerow(['weapons'])
     for i in weapons:

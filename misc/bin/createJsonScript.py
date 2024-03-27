@@ -1,6 +1,6 @@
 import json
 import pathlib
-from MegaMechFileParser.mechparser import MechParser
+from src.megamekfileparser.mekparser import MekParser
 import time
 import uuid
 
@@ -18,7 +18,7 @@ failed = []
 start = time.time()
 for f in files:
     print(f.relative_to(cwd.parent))
-    x = MechParser(f)
+    x = MekParser(f)
 
     try:
         x.parse()

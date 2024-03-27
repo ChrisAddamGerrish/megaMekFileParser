@@ -1,7 +1,7 @@
 import json
 import csv
 
-with open('/Users/chris/Desktop/mmparser/static/all.json','r') as f:
+with open('/misc/static/all.json', 'r') as f:
     data = json.load(f)
 weapon_list = set()
 for ids, mechData in data.items():
@@ -15,6 +15,6 @@ final = sorted(new)
 
 
 
-with open('/Users/chris/Desktop/mmparser/static/weapons2.csv','w') as csvfile:
+with open('/misc/static/weapons2.csv', 'w') as csvfile:
     for i in final:
         csvfile.write(f'{i},\n')
