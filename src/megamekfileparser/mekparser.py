@@ -25,7 +25,7 @@ class MekParser:
         if locs := equip_config_lookup.get(self.config):
             self.mech_locs = [loc for _, loc in locs.items()]
 
-    def __get_item(line: str, direction: Optional[str] = 'r') -> Optional[str]:
+    def __get_item(self, line: str, direction: Optional[str] = 'r') -> Optional[str]:
         match direction:
             case 'r':
                 out = line.split(":")[1].rstrip("\n")
