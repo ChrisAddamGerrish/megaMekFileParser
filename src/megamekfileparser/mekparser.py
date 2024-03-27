@@ -10,11 +10,7 @@ from megamekfileparser.utils.base.weapon_locations import weapon_location_lookup
 class MekParser:
     def __init__(self, mtffilepath):
 
-        if mtffilepath is None:
-            self.filepath = None
-        else:
-            self.filepath: pathlib.Path = mtffilepath
-
+        self.filepath: pathlib.Path = mtffilepath
         self.armor = {}
         self.weapons = {}
         self.equipment = {}
