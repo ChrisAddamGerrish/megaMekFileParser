@@ -8,7 +8,7 @@ from megamekfileparser.utils.base.weapon_locations import weapon_location_lookup
 
 
 class MekParser:
-    def __init__(self, mtffilepath):
+    def __init__(self, mtffilepath: Optional[pathlib.Path] = None):
 
         self.filepath: pathlib.Path = mtffilepath
         self.armor = {}
@@ -64,9 +64,16 @@ class MekParser:
 
         return config
 
-    def parse(self):
+    def __file_path_check(self):
         if self.filepath is None:
             raise Exception('No filepath provided!')
+        elif not isinstance(self.filepath, pathlib.Path):
+            raise TypeError(f'{self.__class__} is not a valid file path!')
+        elif not pathlib.Path(self.filepath).is_file():
+            raise TypeError(f'{self.__class__} does not exist')
+
+    def parse(self):
+        self.__file_path_check()
 
         with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
             self.mech.update({'file': self.filepath.name})
