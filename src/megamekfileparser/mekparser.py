@@ -67,9 +67,9 @@ class MekParser:
         if self.filepath is None:
             raise Exception('No filepath provided!')
         elif not isinstance(self.filepath, pathlib.Path):
-            raise TypeError(f'{self.__class__} is not a valid file path!')
+            raise TypeError(f'{self.filepath} is not a valid file path!')
         elif not pathlib.Path(self.filepath).is_file():
-            raise TypeError(f'{self.__class__} does not exist')
+            raise TypeError(f'{self.filepath} does not exist')
 
     def parse(self):
         self.__file_path_check()
