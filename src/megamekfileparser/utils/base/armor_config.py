@@ -1,4 +1,4 @@
-from src.megamekfileparser.utils.base.equipment_locations import equip_config_lookup
+from megamekfileparser.utils.base.equipment_locations import equip_config_lookup
 
 
 def biped_armor_converter(config, armor_location_check):
