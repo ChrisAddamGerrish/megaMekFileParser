@@ -1,4 +1,4 @@
-from megamekfileparser.utils.MTFAliasLists import masterList
+from misc.MTFAliasLists import masterList
 
 
 def standardize_mta_item_name(item: str) -> str:

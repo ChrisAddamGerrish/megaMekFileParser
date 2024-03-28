@@ -3,7 +3,7 @@ import csv
 import pymongo
 import yaml
 
-with open('../config.yaml', 'r') as file:
+with open('../static/config.yaml', 'r') as file:
     config = yaml.safe_load(file)
 uri = config['uri']
 

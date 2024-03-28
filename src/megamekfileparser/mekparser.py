@@ -2,9 +2,9 @@ from collections import OrderedDict
 from typing import Optional
 import pathlib
 import copy
-from megamekfileparser.utils.base.armor_config import armor_config_lookup
-from megamekfileparser.utils.base.equipment_locations import equip_config_lookup
-from megamekfileparser.utils.base.weapon_locations import weapon_location_lookup
+from megamekfileparser.utils.armor_config import armor_config_lookup
+from megamekfileparser.utils.equipment_locations import equip_config_lookup
+from megamekfileparser.utils.weapon_locations import weapon_location_lookup
 
 
 class MekParser:
@@ -121,8 +121,8 @@ class MekParser:
                                 weapon_key_text = line.split(",")[1].rstrip("\n")
                                 weapon_location = weapon_key_text.strip().lower()
                                 weapon = line.split(",")[0].rstrip("\n").lower()
-                                if '(r)' in weapon:
-                                    weapon = weapon.replace('(r)', "").strip()
+                                #if '(r)' in weapon:
+                                    #weapon = weapon.replace('(r)', "").strip()
                                 try:
                                     tmp_wpn_split = weapon.split(" ")
                                     wpn_count = tmp_wpn_split[0]
