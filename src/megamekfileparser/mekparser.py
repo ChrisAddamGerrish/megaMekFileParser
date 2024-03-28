@@ -37,20 +37,6 @@ class MekParser:
                 out = line.rstrip("\n")
                 return out
 
-    def __parse_locations(self, equipment_location, file):
-        equipment = []
-        line = file.readline()
-        while line != "\n":
-            if len(line) < 1:
-                break
-            ln = line.lower().rstrip("\n")
-            if ln == '-empty-':
-                ln = None
-            equipment.append(ln)
-            line = file.readline()
-            continue
-        self.equipment.update({equipment_location.strip().lower(): equipment})
-
     def __get_config(self):
 
         try:
@@ -70,6 +56,57 @@ class MekParser:
             raise TypeError(f'{self.filepath} is not a valid file path!')
         elif not pathlib.Path(self.filepath).is_file():
             raise TypeError(f'{self.filepath} does not exist')
+
+    def __parse_armor(self, ln):
+        if ln.startswith('armor'):
+            self.armor.update({"type": self.__get_item(ln, 'r')})
+        else:
+            armor_location, armor_value = (self.__get_item(ln, 'l'), self.__get_item(ln, 'r'))
+            armor_location_check = armor_location.split(' ')
+            armor_key = armor_config_lookup[self.config](self.config, armor_location_check[0])
+            if armor_key:
+                self.armor.update({armor_key: armor_value})
+
+    def __parse_weapons(self, f, ln):
+        scans: int = int(self.__get_item(ln, 'r'))
+        weapons_locations = copy.deepcopy(weapon_location_lookup[self.config])
+        for i in range(scans):
+            line = f.readline()
+            weapon_key_text = line.split(",")[1].rstrip("\n")
+            weapon_location = weapon_key_text.strip().lower()
+            weapon = line.split(",")[0].rstrip("\n").lower()
+            # if '(r)' in weapon:
+            # weapon = weapon.replace('(r)', "").strip()
+            try:
+                tmp_wpn_split = weapon.split(" ")
+                wpn_count = tmp_wpn_split[0]
+                wpn = " ".join(tmp_wpn_split[1:])
+                for n in range(int(wpn_count)):
+                    weapons_locations[weapon_location].append(wpn)
+            except ValueError:
+                weapons_locations[weapon_location].append(weapon)
+        for weapon_location, weapon in weapons_locations.items():
+            if len(weapon) == 0:
+                if '(r)' in weapon_location or 'none' in weapon_location:
+                    continue
+                else:
+                    self.weapons.update({weapon_location: None})
+            else:
+                self.weapons.update({weapon_location: weapon})
+
+    def __parse_locations(self, equipment_location, file):
+        equipment = []
+        line = file.readline()
+        while line != "\n":
+            if len(line) < 1:
+                break
+            ln = line.lower().rstrip("\n")
+            if ln == '-empty-':
+                ln = None
+            equipment.append(ln)
+            line = file.readline()
+            continue
+        self.equipment.update({equipment_location.strip().lower(): equipment})
 
     def parse(self):
         self.__file_path_check()
@@ -101,45 +138,10 @@ class MekParser:
                     if not row_check:
 
                         if "armor" in ln:
-
-                            if ln.startswith('armor'):
-                                self.armor.update({"type": self.__get_item(ln, 'r')})
-                            else:
-                                armor_location, armor_value = (self.__get_item(ln, 'l'), self.__get_item(ln, 'r'))
-                                armor_location_check = armor_location.split(' ')
-                                armor_key = armor_config_lookup[self.config](self.config, armor_location_check[0])
-                                if armor_key:
-                                    self.armor.update({armor_key: armor_value})
+                            self.__parse_armor(ln)
 
                         elif "weapons:" in ln:
-                            scans: int = int(self.__get_item(ln, 'r'))
-
-                            weapons_locations = copy.deepcopy(weapon_location_lookup[self.config])
-
-                            for i in range(scans):
-                                line = f.readline()
-                                weapon_key_text = line.split(",")[1].rstrip("\n")
-                                weapon_location = weapon_key_text.strip().lower()
-                                weapon = line.split(",")[0].rstrip("\n").lower()
-                                #if '(r)' in weapon:
-                                    #weapon = weapon.replace('(r)', "").strip()
-                                try:
-                                    tmp_wpn_split = weapon.split(" ")
-                                    wpn_count = tmp_wpn_split[0]
-                                    wpn = " ".join(tmp_wpn_split[1:])
-                                    for n in range(int(wpn_count)):
-                                        weapons_locations[weapon_location].append(wpn)
-                                except ValueError:
-                                    weapons_locations[weapon_location].append(weapon)
-
-                            for weapon_location, weapon in weapons_locations.items():
-                                if len(weapon) == 0:
-                                    if '(r)' in weapon_location or 'none' in weapon_location:
-                                        continue
-                                    else:
-                                        self.weapons.update({weapon_location: None})
-                                else:
-                                    self.weapons.update({weapon_location: weapon})
+                            self.__parse_weapons(f, ln)
 
                         elif ln.replace(":", "") in self.mech_locs:
                             self.__parse_locations(ln, file=f)

@@ -1,5 +1,5 @@
 mta_master_list = {
-    "isac10": "ac10"
+      "isac10": "ac10"
     , "ac/10": "ac10"
     , "autocannon/10": "ac10"
     , "ac/10p": "ac10p"
