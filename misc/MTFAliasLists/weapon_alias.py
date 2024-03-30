@@ -1,4 +1,4 @@
-weapon_alias = {
+mtf_weapon = {
     # /** IS **/
     # Ballistic
 
@@ -21,7 +21,9 @@ weapon_alias = {
     "isimprovedheavygaussrifle": "ihgauss",
     "isimprovedheavygauss": "ihgauss",
     "heavyrifle": "hrifle",
+    "isheavyrifle": "hrifle",
     "rifle(cannonheavy)" : "hrifle",
+    "isheavyfile" : "hrifle",
     "ismagshot": "magshot",
     "ismagshotgr": "magshot",
     "issbgr": "sbgauss",
@@ -88,7 +90,7 @@ weapon_alias = {
     "autocannon10": "ac10",
     "autocannon/10": "ac10",
     "improvedautocannon/10": "iac10",
-    "ac/10p":   "ac10", #not sure what this is
+
     "ac/10": "ac10",
     "ac20": "ac20",
     "ac/20": "ac20",
@@ -232,6 +234,7 @@ weapon_alias = {
     "issmallreengineeredlaser": "reslas",
     "issmallrelaser": "reslas",
     "isbinarylaserblazercannon": "blazer",
+    "binarylaser(blazer)cannon" : "blazer",
     "isbinarylasercannon": "blazer",
     "isblazer": "blazer",
     "isbinarylaser": "blazer",
@@ -295,6 +298,7 @@ weapon_alias = {
     "smallvariablespeedlaser": "vssplas",
     "smallvsp": "vssplas",
 
+
     "largereengineeredlaser": "rellas",
     "largerelaser": "rellas",
     "largere-engineeredlaser" : "rellas",
@@ -353,6 +357,7 @@ weapon_alias = {
     "isinarcbeacon": "inarc",
     "isinarcmissilebeacon": "inarc",
     "isrocketlauncher10": "rl10",
+    "rocketlauncher10(pp)": "rl10",
     "isrl10": "rl10",
     "isrlauncher10": "rl10",
     "isrocketlauncher15": "rl15",
@@ -501,6 +506,9 @@ weapon_alias = {
     "'mechmortar8": "mortar8",
     "mortar4": "mortar4",
     "'mechmortar4": "mortar4",
+    "tsempone-shot": "tsempon(os)",
+    "tsempcannon": "tsempon",
+    "istsempcannon": "tsempon",
 
     # /** CLAN **/
     # Balistic
@@ -560,6 +568,7 @@ weapon_alias = {
     "clermediumlaser": "cermlas",
     "clersmalllaser": "cerslas",
     "clermicrolaser": "cermiclas",
+    "ermicrolaser": "cermiclas",
     "clsmalllaser": "slas",
     "clflamer": "cflamer",
     "clvehicleflamer": "cflamer",
@@ -590,14 +599,12 @@ weapon_alias = {
     "clsmallpulselaser": "csplas",
     "clpulsesmalllaser": "csplas",
     "clmicropulselaser": "cmicplas",
+    "micropulselaser": "cmicplas",
     "clerlargepulselaser": "cerlplas",
     "clerpulselargelaser": "cerlplas",
-    #Assuming this is clan
-    "erlargepulselaser": "cerlplas",
-
+    "erlargepulselaser": "cerlplas",  #Assuming this is clan
     "clermediumpulselaser": "cermplas",
-    #Assuming this is clan
-    "ermediumpulselaser": "cermplas",
+    "ermediumpulselaser": "cermplas", #Assuming this is clan
     "clerpulsemedlaser": "cermplas",
     "clerpulsemediumlaser": "cermplas",
     "clersmallpulselaser": "cersplas",
@@ -607,9 +614,7 @@ weapon_alias = {
     "cllargechemicallaser": "cchemllas",
     "clmediumchemlaser": "cchemmlas",
     "clmediumchemicallaser": "cchemmlas",
-    ##Assuming this is clan
-    "mediumchemlaser": "cchemmlas",
-
+    "mediumchemlaser": "cchemmlas", ##Assuming this is clan
     "clsmallchemlaser": "cchemslas",
     "clsmallchemicallaser": "cchemslas",
 
@@ -957,5 +962,33 @@ weapon_alias = {
     "cladvancedsrm4": "casrm4",
     "cladvancedsrm5": "casrm5",
     "cladvancedsrm6": "casrm6",
-    "clbamicrobomb": "cbombrack"
+    "clbamicrobomb": "cbombrack",
+
+    #Prototype weapons
+    "isgaussrifleprototype": "gaussp",
+    "islbxac10prototype" : "lbxac10p",
+    "primitiveprototypeppc" : "ppcp",
+    "ppcp": "ppcp", #I don't know what this is, assuming its a prototype ppc..
+    "ac/10p":   "ac10p", #not sure what this is
+    "protomechac/2" : "ac2p",
+    "protomechac/4": "ac4p",
+    "protomechac/8" : "ac8p",
+    "prototypeermediumlaser": "mlasp",
+    "prototypeersmalllaser": "slasp",
+    "prototypelb10-xautocannon" : 'lbx10p',
+    "prototyperocketlauncher20" : 'rl20',
+    "prototypestreaksrm4" : 'ssrm4p',
+    "prototypestreaksrm6": 'ssrm6',
+    "prototypeultraautocannon/10": 'uac10p',
+    "clrocketlauncher15prototype": "clrl10p",
+    "erlargelaserprototype" : "erllasp",
+
+    #misc
+    "bombastlaser": "bblas",
+    "flamer(vehicle)": "flamer(vehicle)",
+    "vehiculargrenadelauncher": "grenade(vehicle)",
+    "isbombastlaser": "bblas",
+    "isfluidgun": "fluidgun",
+    "fluidgun": "fluidgun",
+    "nail/rivetgun": "rivetgun",
 }

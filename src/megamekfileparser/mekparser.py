@@ -1,3 +1,4 @@
+import io
 from collections import OrderedDict
 from typing import Optional
 import pathlib
@@ -21,11 +22,17 @@ class MekParser:
         self.systemmanufacturer = {}
 
         self.mech = OrderedDict()
+        self.mech_locs = None
 
-        if locs := equip_config_lookup.get(self.config):
-            self.mech_locs = [loc for _, loc in locs.items()]
-
-    def __get_item(self, line: str, direction: Optional[str] = 'r') -> Optional[str]:
+    def __split_key_value_pair(self, line: str, direction: Optional[str] = 'r') -> Optional[str]:
+        """
+        Splits the current line into a key value pair. The direction argument is used to determine which side of the :
+        is used to set the key.
+        :param line: Text from the file to be parsed
+        :param direction: r = right side of : to be set as key; l = left side of : to be used as key; \n to move on to
+        next line
+        :return: A list of text, where the first value is the key and subsequent items are the values.
+        """
         match direction:
             case 'r':
                 out = line.split(":")[1].rstrip("\n")
@@ -37,8 +44,21 @@ class MekParser:
                 out = line.rstrip("\n")
                 return out
 
-    def __get_config(self):
+    def __get_generic_item(self, line: str) -> None:
+        """
+        Parses over the easy lines. Builds key value pairs based on the current line read into the function.
+        :param line: Current line of the file.
+        :return: None, class object is updated directly.
+        """
+        items = [i for i in line.split(":") if i != ""]
+        if len(items) > 1:
+            self.mech.update({items[0].lower(): items[1].lower().rstrip("\n")})
 
+    def __get_config(self) -> str:
+        """
+        Finds the config line in the file being parsed to be used in the configue setup step.
+        :return: a string to be used in the config lookup function.
+        """
         try:
             with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
                 while line := f.readline():
@@ -49,7 +69,11 @@ class MekParser:
 
         return config
 
-    def __file_path_check(self):
+    def __file_path_check(self) -> None:
+        """
+        Checks to make sure the file path object passed into the parser exists and is a file.
+        :return: None
+        """
         if self.filepath is None:
             raise Exception('No filepath provided!')
         elif not isinstance(self.filepath, pathlib.Path):
@@ -57,21 +81,36 @@ class MekParser:
         elif not pathlib.Path(self.filepath).is_file():
             raise TypeError(f'{self.filepath} does not exist')
 
-    def __parse_armor(self, ln):
-        if ln.startswith('armor'):
-            self.armor.update({"type": self.__get_item(ln, 'r')})
+    def __parse_armor(self, line: str) -> None:
+        """
+        Function to parse armor lines in the fie. This triggered  after the if statement detects the word "armor" in the
+        text of the current line in the main parse function. Each row is then handled accordingly.
+        :param line: current text of the current line in the file
+        :return: None, class object is updated directly.
+        """
+        if line.startswith('armor'):
+            self.armor.update({"type": self.__split_key_value_pair(line, 'r')})
         else:
-            armor_location, armor_value = (self.__get_item(ln, 'l'), self.__get_item(ln, 'r'))
+            armor_location, armor_value = (self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
             armor_location_check = armor_location.split(' ')
             armor_key = armor_config_lookup[self.config](self.config, armor_location_check[0])
             if armor_key:
                 self.armor.update({armor_key: armor_value})
 
-    def __parse_weapons(self, f, ln):
-        scans: int = int(self.__get_item(ln, 'r'))
+    def __parse_weapons(self, file, line: str) -> None:
+        """
+        Weapon sequence contains the most checks. Control is handled over to the function from the main parser
+        to make sure items are assigned to the correct location. Since the number of weapons are indicated on the first
+        line of the file where weapons are declared, this step will iterate through the file for the total length
+        indicated, and then will return control back to the main parse function to continue iteration.
+        :param file: current file parsed
+        :param line: current line of file parsed
+        :return: None, class object is updated directly.
+        """
+        scans: int = int(self.__split_key_value_pair(line, 'r'))
         weapons_locations = copy.deepcopy(weapon_location_lookup[self.config])
         for i in range(scans):
-            line = f.readline()
+            line = file.readline()
             weapon_key_text = line.split(",")[1].rstrip("\n")
             weapon_location = weapon_key_text.strip().lower()
             weapon = line.split(",")[0].rstrip("\n").lower()
@@ -94,7 +133,15 @@ class MekParser:
             else:
                 self.weapons.update({weapon_location: weapon})
 
-    def __parse_locations(self, equipment_location, file):
+    def __parse_locations(self, equipment_location: str, file) -> None:
+        """
+        Build sub dictionary for an arbitrary locations. After a location is detected by the parser, the parser creates a
+        dictionary with the locations names, and adds values to that dictionary for each subsequent line in the file.
+        final results are added to the equipment dictionary in the end.
+        :param equipment_location: Location string at top of sequence.
+        :param file: file object to be iterated over. File will be read from current row in parser sequence.
+        :return None: Items appended to self in the class.
+        """
         equipment = []
         line = file.readline()
         while line != "\n":
@@ -108,17 +155,38 @@ class MekParser:
             continue
         self.equipment.update({equipment_location.strip().lower(): equipment})
 
+    def __handle_fluff_and_systemmanufacturer(self, line: str) -> None:
+        """
+        This function handles misc information that is not needed for gameplay, but helps with narrative when needed.
+        :param line: Text of the current line of the file being parser
+        :return: None, class object is updated directly.
+        """
+        if not line.split(":")[0] == 'systemmanufacturer':
+            items = [i for i in line.split(":") if i != ""]
+            if len(items) > 1:
+                self.fluff.update({items[0].lower(): items[1].rstrip("\n")})
+        else:
+            items = [i for i in line.split(":") if i != ""]
+            self.systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
+
     def parse(self):
         self.__file_path_check()
 
         with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
+
+            if locs := equip_config_lookup.get(self.config):
+                self.mech_locs = [loc for _, loc in locs.items()]
+            else:
+                raise ValueError('MegaMek Object Configuration not recognized!')
+
+            # All megamek files should start of with these 4 items {file,version,chassis,model}
             self.mech.update({'file': self.filepath.name})
             line = f.readline()
-            self.mech.update({'version': self.__get_item(line, 'r')})
+            self.mech.update({'version': self.__split_key_value_pair(line, 'r')})
             line = f.__next__()
-            self.mech.update({'chassis': self.__get_item(line, 'n').strip().lower()})
+            self.mech.update({'chassis': self.__split_key_value_pair(line, 'n').strip().lower()})
             line = f.__next__()
-            self.mech.update({'model': self.__get_item(line, 'n').strip().lower()})
+            self.mech.update({'model': self.__split_key_value_pair(line, 'n').strip().lower()})
 
             while line := f.readline():
 
@@ -128,42 +196,40 @@ class MekParser:
                     if ln == '':
                         continue
 
+                    # Check to see if current row in file is fluff / system manufacturer. If false, the parser will
+                    # continue. These items should always show up at EOF, but necessary to check first based on current
+                    # flow of the script. Possible refactor in the future?
                     row_check = None
                     for row in self.fluff_keys:
-                        c = ln.split(":")[0]
-                        if row in c:
+                        fluff_items = ln.split(":")[0]
+                        if row in fluff_items:
                             row_check = True
                             break
 
                     if not row_check:
 
                         if "armor" in ln:
-                            self.__parse_armor(ln)
+                            self.__parse_armor(line=ln)
 
                         elif "weapons:" in ln:
-                            self.__parse_weapons(f, ln)
+                            self.__parse_weapons(file=f, line=ln)
 
                         elif ln.replace(":", "") in self.mech_locs:
-                            self.__parse_locations(ln, file=f)
+                            self.__parse_locations(equipment_location=ln, file=f)
 
                         else:
-                            items = [i for i in line.split(":") if i != ""]
-                            if len(items) > 1:
-                                self.mech.update({items[0].lower(): items[1].lower().rstrip("\n")})
+                            self.__get_generic_item(line)
                     else:
-                        if not line.split(":")[0] == 'systemmanufacturer':
-                            items = [i for i in line.split(":") if i != ""]
-                            if len(items) > 1:
-                                self.fluff.update({items[0].lower(): items[1].rstrip("\n")})
-                        else:
-                            items = [i for i in line.split(":") if i != ""]
-                            self.systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
+                        self.__handle_fluff_and_systemmanufacturer(line)
 
                 except IndexError:
-                    print('bad')
+                    print(f'Could not successfully read line {line} of file {self.filepath}!')
 
-        self.fluff.update({'systemmanufacturer': self.systemmanufacturer})
+        # Build final document with all parsed items.
         self.mech.update({"armor": self.armor})
         self.mech.update({"weapons": self.weapons})
         self.mech.update({"equipment": self.equipment})
+        self.fluff.update({'systemmanufacturer': self.systemmanufacturer})
         self.mech.update({'fluff': self.fluff})
+
+

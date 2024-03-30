@@ -125,7 +125,7 @@ equipment_alias = {
     "cargo(1ton)": "cargo",
     "riscadvancedpointdefensesystem": "rapds",
     "ischaffpod": "chaffpod",
-    "ppcp": "ppcp", #I don't know what this is...
+
     "ismass" : "mass",
 
 
