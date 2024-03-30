@@ -1,4 +1,3 @@
-import io
 from collections import OrderedDict
 from typing import Optional
 import pathlib
@@ -91,7 +90,8 @@ class MekParser:
         if line.startswith('armor'):
             self.armor.update({"type": self.__split_key_value_pair(line, 'r')})
         else:
-            armor_location, armor_value = (self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
+            armor_location, armor_value = (
+            self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
             armor_location_check = armor_location.split(' ')
             armor_key = armor_config_lookup[self.config](self.config, armor_location_check[0])
             if armor_key:
@@ -231,5 +231,3 @@ class MekParser:
         self.mech.update({"equipment": self.equipment})
         self.fluff.update({'systemmanufacturer': self.systemmanufacturer})
         self.mech.update({'fluff': self.fluff})
-
-

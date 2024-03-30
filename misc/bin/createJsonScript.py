@@ -1,6 +1,6 @@
 import json
 import pathlib
-from src.megamekfileparser.mekparser import MekParser
+from megamekfileparser.mekparser import MekParser
 import time
 import uuid
 
