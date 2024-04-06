@@ -7,7 +7,7 @@ packages = ['src/megamekfileparser']
 
 [project]
 name = "megamekfileparser"
-version = "0.5.0"
+version = "0.6.0"
 authors = [
   { name="Christopher Gerrish", email="chris.gerrish@outlook.com" },
 ]

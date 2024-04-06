@@ -8,20 +8,62 @@ from megamekfileparser.utils.weapon_locations import weapon_location_lookup
 
 
 class MekParser:
-    def __init__(self, mtffilepath: Optional[pathlib.Path] = None):
+    """
+    Parses Mek files.
 
-        self.filepath: pathlib.Path = mtffilepath
-        self.armor = {}
-        self.weapons = {}
-        self.equipment = {}
-        self.fluff = {}
-        self.fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
-                           'systemmanufacturer', 'primaryfactory', 'systemmode']
-        self.config = self.__get_config()
-        self.systemmanufacturer = {}
+    Attributes
+    -----------
+        mech : OrderedDict
+            An ordered dictionary of a parsed Mek files.
+
+        fluff_keys : list
+            A list of all fluffy keys.
+
+        systemmanufacturer : dict
+            A dictionary of the system manufacturer.
+
+        equipment : dict
+            A dictionary of the equipment.
+
+        weapons : dict
+            A dictionary of the weapons.
+
+        armor : dict
+            A dictionary of the armor.
+
+        mek_locs : dict
+            A dictionary of the locations the mek configuration supports.
+
+        fluff : dict
+            A dictionary of misc mek facts found in lore.
+
+        config : str
+            A string that describes the type of mek object.
+
+        filepath : pathlib.Path
+            A pathlib.Path object that points to the mek file that was parsed.
+
+    Methods
+    ---------
+    parse(mtf_file_path)
+        Parses Mek files.
+
+    """
+
+    def __init__(self):
 
         self.mech = OrderedDict()
-        self.mech_locs = None
+        self.fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
+                           'systemmanufacturer', 'primaryfactory', 'systemmode']
+        self.systemmanufacturer = {}
+
+        self.equipment = dict()
+        self.weapons = dict()
+        self.armor = dict()
+        self.mek_locs = dict()
+        self.fluff = dict()
+        self.config = None
+        self.filepath: Optional[pathlib.Path] = None
 
     def __split_key_value_pair(self, line: str, direction: Optional[str] = 'r') -> Optional[str]:
         """
@@ -53,7 +95,7 @@ class MekParser:
         if len(items) > 1:
             self.mech.update({items[0].lower(): items[1].lower().rstrip("\n")})
 
-    def __get_config(self) -> str:
+    def __get_config(self) -> None:
         """
         Finds the config line in the file being parsed to be used in the configue setup step.
         :return: a string to be used in the config lookup function.
@@ -63,10 +105,11 @@ class MekParser:
                 while line := f.readline():
                     if 'config:' in line.lower():
                         config = line.split(":")[1].rstrip("\n").lower()
+                        break
         except Exception as e:
             config = f'error!\n {e}'
 
-        return config
+        self.config = config
 
     def __file_path_check(self) -> None:
         """
@@ -91,7 +134,7 @@ class MekParser:
             self.armor.update({"type": self.__split_key_value_pair(line, 'r')})
         else:
             armor_location, armor_value = (
-            self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
+                self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
             armor_location_check = armor_location.split(' ')
             armor_key = armor_config_lookup[self.config](self.config, armor_location_check[0])
             if armor_key:
@@ -169,13 +212,20 @@ class MekParser:
             items = [i for i in line.split(":") if i != ""]
             self.systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
 
-    def parse(self):
+    def parse(self, mtf_file_path: pathlib.Path) -> OrderedDict:
+        """
+        Generates a structured ordered dictionary of a mek from an arbitrary megamek file.
+        :param mtf_file_path: pathlib.Path filepath for a .mtf file.
+        :return: An OrderedDict structured megamek file.
+        """
+        self.filepath = mtf_file_path
         self.__file_path_check()
+        self.__get_config()
 
         with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
 
             if locs := equip_config_lookup.get(self.config):
-                self.mech_locs = [loc for _, loc in locs.items()]
+                self.mek_locs = [loc for _, loc in locs.items()]
             else:
                 raise ValueError('MegaMek Object Configuration not recognized!')
 
@@ -214,7 +264,7 @@ class MekParser:
                         elif "weapons:" in ln:
                             self.__parse_weapons(file=f, line=ln)
 
-                        elif ln.replace(":", "") in self.mech_locs:
+                        elif ln.replace(":", "") in self.mek_locs:
                             self.__parse_locations(equipment_location=ln, file=f)
 
                         else:
@@ -231,3 +281,5 @@ class MekParser:
         self.mech.update({"equipment": self.equipment})
         self.fluff.update({'systemmanufacturer': self.systemmanufacturer})
         self.mech.update({'fluff': self.fluff})
+
+        return self.mech
