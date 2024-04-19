@@ -13,7 +13,7 @@ class MekParser:
 
     Attributes
     -----------
-        mech : OrderedDict
+        mm_unit : OrderedDict
             An ordered dictionary of a parsed Mek files.
 
         fluff_keys : list
@@ -31,7 +31,7 @@ class MekParser:
         armor : dict
             A dictionary of the armor.
 
-        mek_locs : dict
+        mm_locs : dict
             A dictionary of the locations the mek configuration supports.
 
         fluff : dict
@@ -52,7 +52,7 @@ class MekParser:
 
     def __init__(self):
 
-        self.mech = OrderedDict()
+        self.mm_unit = OrderedDict()
         self.fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
                            'systemmanufacturer', 'primaryfactory', 'systemmode']
         self.systemmanufacturer = {}
@@ -60,7 +60,7 @@ class MekParser:
         self.equipment = dict()
         self.weapons = dict()
         self.armor = dict()
-        self.mek_locs = dict()
+        self.mm_locs = dict()
         self.fluff = dict()
         self.config = None
         self.filepath: Optional[pathlib.Path] = None
@@ -93,7 +93,7 @@ class MekParser:
         """
         items = [i for i in line.split(":") if i != ""]
         if len(items) > 1:
-            self.mech.update({items[0].lower(): items[1].lower().rstrip("\n")})
+            self.mm_unit.update({items[0].lower(): items[1].lower().rstrip("\n")})
 
     def __get_config(self) -> None:
         """
@@ -225,18 +225,18 @@ class MekParser:
         with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
 
             if locs := equip_config_lookup.get(self.config):
-                self.mek_locs = [loc for _, loc in locs.items()]
+                self.mm_locs = [loc for _, loc in locs.items()]
             else:
                 raise ValueError('MegaMek Object Configuration not recognized!')
 
             # All megamek files should start of with these 4 items {file,version,chassis,model}
-            self.mech.update({'file': self.filepath.name})
+            self.mm_unit.update({'file': self.filepath.name})
             line = f.readline()
-            self.mech.update({'version': self.__split_key_value_pair(line, 'r')})
+            self.mm_unit.update({'version': self.__split_key_value_pair(line, 'r')})
             line = f.__next__()
-            self.mech.update({'chassis': self.__split_key_value_pair(line, 'n').strip().lower()})
+            self.mm_unit.update({'chassis': self.__split_key_value_pair(line, 'n').strip().lower()})
             line = f.__next__()
-            self.mech.update({'model': self.__split_key_value_pair(line, 'n').strip().lower()})
+            self.mm_unit.update({'model': self.__split_key_value_pair(line, 'n').strip().lower()})
 
             while line := f.readline():
 
@@ -264,7 +264,7 @@ class MekParser:
                         elif "weapons:" in ln:
                             self.__parse_weapons(file=f, line=ln)
 
-                        elif ln.replace(":", "") in self.mek_locs:
+                        elif ln.replace(":", "") in self.mm_locs:
                             self.__parse_locations(equipment_location=ln, file=f)
 
                         else:
@@ -276,10 +276,10 @@ class MekParser:
                     print(f'Could not successfully read line {line} of file {self.filepath}!')
 
         # Build final document with all parsed items.
-        self.mech.update({"armor": self.armor})
-        self.mech.update({"weapons": self.weapons})
-        self.mech.update({"equipment": self.equipment})
+        self.mm_unit.update({"armor": self.armor})
+        self.mm_unit.update({"weapons": self.weapons})
+        self.mm_unit.update({"equipment": self.equipment})
         self.fluff.update({'systemmanufacturer': self.systemmanufacturer})
-        self.mech.update({'fluff': self.fluff})
+        self.mm_unit.update({'fluff': self.fluff})
 
-        return self.mech
+        return self.mm_unit
