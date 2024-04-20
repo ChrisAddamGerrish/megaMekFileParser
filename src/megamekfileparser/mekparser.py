@@ -7,37 +7,37 @@ from megamekfileparser.utils.equipment_locations import equip_config_lookup
 from megamekfileparser.utils.weapon_locations import weapon_location_lookup
 
 
-class MekParser:
+class MegaMekParser:
     """
     Parses Mek files.
 
     Attributes
     -----------
-        mm_unit : OrderedDict
+        unit_data : OrderedDict
             An ordered dictionary of a parsed Mek files.
 
-        fluff_keys : list
+        __fluff_keys : list
             A list of all fluffy keys.
 
-        systemmanufacturer : dict
+        __unit__fluff__systemmanufacturer : dict
             A dictionary of the system manufacturer.
 
-        equipment : dict
+        __unit__equipment : dict
             A dictionary of the equipment.
 
-        weapons : dict
+        __unit__weapons : dict
             A dictionary of the weapons.
 
-        armor : dict
+        __unit_armor : dict
             A dictionary of the armor.
 
-        mm_locs : dict
+        __unit_locs : dict
             A dictionary of the locations the mek configuration supports.
 
-        fluff : dict
+        __unit_fluff : dict
             A dictionary of misc mek facts found in lore.
 
-        config : str
+        __unit_config : str
             A string that describes the type of mek object.
 
         filepath : pathlib.Path
@@ -52,17 +52,17 @@ class MekParser:
 
     def __init__(self):
 
-        self.mm_unit = OrderedDict()
-        self.fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
-                           'systemmanufacturer', 'primaryfactory', 'systemmode']
-        self.systemmanufacturer = {}
+        self.unit_data = OrderedDict()
+        self.__fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
+                             'systemmanufacturer', 'primaryfactory', 'systemmode']
+        self.__unit__fluff__systemmanufacturer = {}
 
-        self.equipment = dict()
-        self.weapons = dict()
-        self.armor = dict()
-        self.mm_locs = dict()
-        self.fluff = dict()
-        self.config = None
+        self.__unit__equipment = dict()
+        self.__unit__weapons = dict()
+        self.__unit_armor = dict()
+        self.__unit_locs = dict()
+        self.__unit_fluff = dict()
+        self.__unit_config = None
         self.filepath: Optional[pathlib.Path] = None
 
     def __split_key_value_pair(self, line: str, direction: Optional[str] = 'r') -> Optional[str]:
@@ -93,7 +93,7 @@ class MekParser:
         """
         items = [i for i in line.split(":") if i != ""]
         if len(items) > 1:
-            self.mm_unit.update({items[0].lower(): items[1].lower().rstrip("\n")})
+            self.unit_data.update({items[0].lower(): items[1].lower().rstrip("\n")})
 
     def __get_config(self) -> None:
         """
@@ -109,9 +109,9 @@ class MekParser:
         except Exception as e:
             config = f'error!\n {e}'
 
-        self.config = config
+        self.__unit_config = config
 
-    def __file_path_check(self) -> None:
+    def file_path_check(self) -> None:
         """
         Checks to make sure the file path object passed into the parser exists and is a file.
         :return: None
@@ -131,14 +131,14 @@ class MekParser:
         :return: None, class object is updated directly.
         """
         if line.startswith('armor'):
-            self.armor.update({"type": self.__split_key_value_pair(line, 'r')})
+            self.__unit_armor.update({"type": self.__split_key_value_pair(line, 'r')})
         else:
             armor_location, armor_value = (
                 self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
             armor_location_check = armor_location.split(' ')
-            armor_key = armor_config_lookup[self.config](self.config, armor_location_check[0])
+            armor_key = armor_config_lookup[self.__unit_config](self.__unit_config, armor_location_check[0])
             if armor_key:
-                self.armor.update({armor_key: armor_value})
+                self.__unit_armor.update({armor_key: armor_value})
 
     def __parse_weapons(self, file, line: str) -> None:
         """
@@ -151,7 +151,7 @@ class MekParser:
         :return: None, class object is updated directly.
         """
         scans: int = int(self.__split_key_value_pair(line, 'r'))
-        weapons_locations = copy.deepcopy(weapon_location_lookup[self.config])
+        weapons_locations = copy.deepcopy(weapon_location_lookup[self.__unit_config])
         for i in range(scans):
             line = file.readline()
             weapon_key_text = line.split(",")[1].rstrip("\n")
@@ -172,9 +172,9 @@ class MekParser:
                 if '(r)' in weapon_location or 'none' in weapon_location:
                     continue
                 else:
-                    self.weapons.update({weapon_location: None})
+                    self.__unit__weapons.update({weapon_location: None})
             else:
-                self.weapons.update({weapon_location: weapon})
+                self.__unit__weapons.update({weapon_location: weapon})
 
     def __parse_locations(self, equipment_location: str, file) -> None:
         """
@@ -196,7 +196,7 @@ class MekParser:
             equipment.append(ln)
             line = file.readline()
             continue
-        self.equipment.update({equipment_location.strip().lower(): equipment})
+        self.__unit__equipment.update({equipment_location.strip().lower(): equipment})
 
     def __handle_fluff_and_systemmanufacturer(self, line: str) -> None:
         """
@@ -207,10 +207,10 @@ class MekParser:
         if not line.split(":")[0] == 'systemmanufacturer':
             items = [i for i in line.split(":") if i != ""]
             if len(items) > 1:
-                self.fluff.update({items[0].lower(): items[1].rstrip("\n")})
+                self.__unit_fluff.update({items[0].lower(): items[1].rstrip("\n")})
         else:
             items = [i for i in line.split(":") if i != ""]
-            self.systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
+            self.__unit__fluff__systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
 
     def parse(self, mtf_file_path: pathlib.Path) -> OrderedDict:
         """
@@ -219,24 +219,24 @@ class MekParser:
         :return: An OrderedDict structured megamek file.
         """
         self.filepath = mtf_file_path
-        self.__file_path_check()
+        self.file_path_check()
         self.__get_config()
 
         with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
 
-            if locs := equip_config_lookup.get(self.config):
-                self.mm_locs = [loc for _, loc in locs.items()]
+            if locs := equip_config_lookup.get(self.__unit_config):
+                self.__unit_locs = [loc for _, loc in locs.items()]
             else:
                 raise ValueError('MegaMek Object Configuration not recognized!')
 
             # All megamek files should start of with these 4 items {file,version,chassis,model}
-            self.mm_unit.update({'file': self.filepath.name})
+            self.unit_data.update({'file': self.filepath.name})
             line = f.readline()
-            self.mm_unit.update({'version': self.__split_key_value_pair(line, 'r')})
+            self.unit_data.update({'version': self.__split_key_value_pair(line, 'r')})
             line = f.__next__()
-            self.mm_unit.update({'chassis': self.__split_key_value_pair(line, 'n').strip().lower()})
+            self.unit_data.update({'chassis': self.__split_key_value_pair(line, 'n').strip().lower()})
             line = f.__next__()
-            self.mm_unit.update({'model': self.__split_key_value_pair(line, 'n').strip().lower()})
+            self.unit_data.update({'model': self.__split_key_value_pair(line, 'n').strip().lower()})
 
             while line := f.readline():
 
@@ -250,7 +250,7 @@ class MekParser:
                     # continue. These items should always show up at EOF, but necessary to check first based on current
                     # flow of the script. Possible refactor in the future?
                     row_check = None
-                    for row in self.fluff_keys:
+                    for row in self.__fluff_keys:
                         fluff_items = ln.split(":")[0]
                         if row in fluff_items:
                             row_check = True
@@ -264,7 +264,7 @@ class MekParser:
                         elif "weapons:" in ln:
                             self.__parse_weapons(file=f, line=ln)
 
-                        elif ln.replace(":", "") in self.mm_locs:
+                        elif ln.replace(":", "") in self.__unit_locs:
                             self.__parse_locations(equipment_location=ln, file=f)
 
                         else:
@@ -276,10 +276,10 @@ class MekParser:
                     print(f'Could not successfully read line {line} of file {self.filepath}!')
 
         # Build final document with all parsed items.
-        self.mm_unit.update({"armor": self.armor})
-        self.mm_unit.update({"weapons": self.weapons})
-        self.mm_unit.update({"equipment": self.equipment})
-        self.fluff.update({'systemmanufacturer': self.systemmanufacturer})
-        self.mm_unit.update({'fluff': self.fluff})
+        self.unit_data.update({"armor": self.__unit_armor})
+        self.unit_data.update({"weapons": self.__unit__weapons})
+        self.unit_data.update({"equipment": self.__unit__equipment})
+        self.__unit_fluff.update({'systemmanufacturer': self.__unit__fluff__systemmanufacturer})
+        self.unit_data.update({'fluff': self.__unit_fluff})
 
-        return self.mm_unit
+        return self.unit_data
