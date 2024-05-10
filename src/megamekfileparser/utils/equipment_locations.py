@@ -30,8 +30,8 @@ tripod_mech = {
 quad_mech = {
     'la': 'left arm',
     'ra': 'right arm',
-    'fll': 'left leg',
-    'frl': 'right leg',
+    'fll': 'front left leg',
+    'frl': 'front right leg',
     'rll': 'rear left leg',
     'rrl': 'rear right leg',
     'lt': 'left torso',
