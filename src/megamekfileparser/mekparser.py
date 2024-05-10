@@ -7,7 +7,7 @@ from megamekfileparser.utils.equipment_locations import equip_config_lookup
 from megamekfileparser.utils.weapon_locations import weapon_location_lookup
 
 
-class MegaMekParser:
+class MekParser:
     """
     Parses Mek files.
 
@@ -16,28 +16,28 @@ class MegaMekParser:
         unit_data : OrderedDict
             An ordered dictionary of a parsed Mek files.
 
-        __fluff_keys : list
+        _fluff_keys : list
             A list of all fluffy keys.
 
-        __unit__fluff__systemmanufacturer : dict
+        _unit__fluff__systemmanufacturer : dict
             A dictionary of the system manufacturer.
 
-        __unit__equipment : dict
+        _unit__equipment : dict
             A dictionary of the equipment.
 
-        __unit__weapons : dict
+        _unit__weapons : dict
             A dictionary of the weapons.
 
-        __unit_armor : dict
+        _unit_armor : dict
             A dictionary of the armor.
 
-        __unit_locs : dict
+        _unit_locs : dict
             A dictionary of the locations the mek configuration supports.
 
-        __unit_fluff : dict
+        _unit_fluff : dict
             A dictionary of misc mek facts found in lore.
 
-        __unit_config : str
+        _unit_config : str
             A string that describes the type of mek object.
 
         filepath : pathlib.Path
@@ -53,16 +53,16 @@ class MegaMekParser:
     def __init__(self):
 
         self.unit_data = OrderedDict()
-        self.__fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
+        self._fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
                              'systemmanufacturer', 'primaryfactory', 'systemmode']
-        self.__unit__fluff__systemmanufacturer = {}
+        self._unit__fluff__systemmanufacturer = {}
 
-        self.__unit__equipment = dict()
-        self.__unit__weapons = dict()
-        self.__unit_armor = dict()
-        self.__unit_locs = dict()
-        self.__unit_fluff = dict()
-        self.__unit_config = None
+        self._unit__equipment = dict()
+        self._unit__weapons = dict()
+        self._unit_armor = dict()
+        self._unit_locs = dict()
+        self._unit_fluff = dict()
+        self._unit_config = None
         self.filepath: Optional[pathlib.Path] = None
 
     def __split_key_value_pair(self, line: str, direction: Optional[str] = 'r') -> Optional[str]:
@@ -109,7 +109,7 @@ class MegaMekParser:
         except Exception as e:
             config = f'error!\n {e}'
 
-        self.__unit_config = config
+        self._unit_config = config
 
     def file_path_check(self) -> None:
         """
@@ -131,14 +131,14 @@ class MegaMekParser:
         :return: None, class object is updated directly.
         """
         if line.startswith('armor'):
-            self.__unit_armor.update({"type": self.__split_key_value_pair(line, 'r')})
+            self._unit_armor.update({"type": self.__split_key_value_pair(line, 'r')})
         else:
             armor_location, armor_value = (
                 self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
             armor_location_check = armor_location.split(' ')
-            armor_key = armor_config_lookup[self.__unit_config](self.__unit_config, armor_location_check[0])
+            armor_key = armor_config_lookup[self._unit_config](self._unit_config, armor_location_check[0])
             if armor_key:
-                self.__unit_armor.update({armor_key: armor_value})
+                self._unit_armor.update({armor_key: armor_value})
 
     def __parse_weapons(self, file, line: str) -> None:
         """
@@ -151,7 +151,7 @@ class MegaMekParser:
         :return: None, class object is updated directly.
         """
         scans: int = int(self.__split_key_value_pair(line, 'r'))
-        weapons_locations = copy.deepcopy(weapon_location_lookup[self.__unit_config])
+        weapons_locations = copy.deepcopy(weapon_location_lookup[self._unit_config])
         for i in range(scans):
             line = file.readline()
             weapon_key_text = line.split(",")[1].rstrip("\n")
@@ -172,9 +172,9 @@ class MegaMekParser:
                 if '(r)' in weapon_location or 'none' in weapon_location:
                     continue
                 else:
-                    self.__unit__weapons.update({weapon_location: None})
+                    self._unit__weapons.update({weapon_location: None})
             else:
-                self.__unit__weapons.update({weapon_location: weapon})
+                self._unit__weapons.update({weapon_location: weapon})
 
     def __parse_locations(self, equipment_location: str, file) -> None:
         """
@@ -196,7 +196,7 @@ class MegaMekParser:
             equipment.append(ln)
             line = file.readline()
             continue
-        self.__unit__equipment.update({equipment_location.strip().lower(): equipment})
+        self._unit__equipment.update({equipment_location.strip().lower(): equipment})
 
     def __handle_fluff_and_systemmanufacturer(self, line: str) -> None:
         """
@@ -207,10 +207,10 @@ class MegaMekParser:
         if not line.split(":")[0] == 'systemmanufacturer':
             items = [i for i in line.split(":") if i != ""]
             if len(items) > 1:
-                self.__unit_fluff.update({items[0].lower(): items[1].rstrip("\n")})
+                self._unit_fluff.update({items[0].lower(): items[1].rstrip("\n")})
         else:
             items = [i for i in line.split(":") if i != ""]
-            self.__unit__fluff__systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
+            self._unit__fluff__systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
 
     def parse(self, mtf_file_path: pathlib.Path) -> OrderedDict:
         """
@@ -224,8 +224,8 @@ class MegaMekParser:
 
         with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
 
-            if locs := equip_config_lookup.get(self.__unit_config):
-                self.__unit_locs = [loc for _, loc in locs.items()]
+            if locs := equip_config_lookup.get(self._unit_config):
+                self._unit_locs = [loc for _, loc in locs.items()]
             else:
                 raise ValueError('MegaMek Object Configuration not recognized!')
 
@@ -250,7 +250,7 @@ class MegaMekParser:
                     # continue. These items should always show up at EOF, but necessary to check first based on current
                     # flow of the script. Possible refactor in the future?
                     row_check = None
-                    for row in self.__fluff_keys:
+                    for row in self._fluff_keys:
                         fluff_items = ln.split(":")[0]
                         if row in fluff_items:
                             row_check = True
@@ -264,7 +264,7 @@ class MegaMekParser:
                         elif "weapons:" in ln:
                             self.__parse_weapons(file=f, line=ln)
 
-                        elif ln.replace(":", "") in self.__unit_locs:
+                        elif ln.replace(":", "") in self._unit_locs:
                             self.__parse_locations(equipment_location=ln, file=f)
 
                         else:
@@ -276,10 +276,10 @@ class MegaMekParser:
                     print(f'Could not successfully read line {line} of file {self.filepath}!')
 
         # Build final document with all parsed items.
-        self.unit_data.update({"armor": self.__unit_armor})
-        self.unit_data.update({"weapons": self.__unit__weapons})
-        self.unit_data.update({"equipment": self.__unit__equipment})
-        self.__unit_fluff.update({'systemmanufacturer': self.__unit__fluff__systemmanufacturer})
-        self.unit_data.update({'fluff': self.__unit_fluff})
+        self.unit_data.update({"armor": self._unit_armor})
+        self.unit_data.update({"weapons": self._unit__weapons})
+        self.unit_data.update({"equipment": self._unit__equipment})
+        self._unit_fluff.update({'systemmanufacturer': self._unit__fluff__systemmanufacturer})
+        self.unit_data.update({'fluff': self._unit_fluff})
 
         return self.unit_data
