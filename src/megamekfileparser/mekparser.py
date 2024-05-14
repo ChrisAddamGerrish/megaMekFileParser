@@ -132,9 +132,20 @@ class MekParser:
         """
         if line.startswith('armor'):
             self._unit_armor.update({"type": self.__split_key_value_pair(line, 'r')})
+
         else:
-            armor_location, armor_value = (
-                self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
+            #TODO add subtypes for patchwork armor only 3 or 4 mechs...
+            if self._unit_armor.get('type') == 'patchwork':
+                if len(line.split(":")) > 2:
+                    armor_location, armor_sub_type, armor_value = line.split(":")
+                else:
+                    armor_location, armor_value = (self.__split_key_value_pair(line, 'l'),
+                                                   self.__split_key_value_pair(line, 'r'))
+
+            else:
+                armor_location, armor_value = (
+                    self.__split_key_value_pair(line, 'l'), self.__split_key_value_pair(line, 'r'))
+
             armor_location_check = armor_location.split(' ')
             armor_key = armor_config_lookup[self._unit_config](self._unit_config, armor_location_check[0])
             if armor_key:

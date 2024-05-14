@@ -7,10 +7,12 @@ import time
 import uuid
 
 cwd = pathlib.Path.cwd().joinpath('../megamekfiles')
+#cwd = pathlib.Path(r'/Users/chris/Desktop/megamekparser/megamekfiles/XTRs/Caveat Emptor/Aquagladius AQS-5 MAM.mtf')
 
 print(cwd.parent)
 
 p = pathlib.Path(cwd).rglob('*.mtf')
+#p = [cwd]
 
 files = [x for x in p if x.is_file()]
 i = 0
@@ -28,7 +30,7 @@ for f in files:
     except Exception as e:
         failed.append(f'{f} ; {e}')
 
-    y = dict()
+    y = mech_out
 
     y['file'] = str(f.relative_to(cwd.parent))
 
