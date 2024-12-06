@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from typing import Optional
 import pathlib
+import os
 import copy
 from megamekfileparser.utils.armor_config import armor_config_lookup
 from megamekfileparser.utils.equipment_locations import equip_config_lookup
@@ -50,7 +51,7 @@ class MekParser:
 
     """
 
-    def __init__(self):
+    def __init__(self, filepath):
 
         self.unit_data = OrderedDict()
         self._fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
@@ -63,7 +64,13 @@ class MekParser:
         self._unit_locs = dict()
         self._unit_fluff = dict()
         self._unit_config = None
-        self.filepath: Optional[pathlib.Path] = None
+        self.file = filepath
+
+
+        if filepath:
+            self.parse()
+
+        
 
     def __split_key_value_pair(self, line: str, direction: Optional[str] = 'r') -> Optional[str]:
         """
@@ -101,9 +108,10 @@ class MekParser:
         :return: a string to be used in the config lookup function.
         """
         try:
-            with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
+            with open(file=self.file, encoding='utf8', errors='ignore', mode='r') as f:
+                # scans the entire file looking for a match on 'config'
                 while line := f.readline():
-                    if 'config:' in line.lower():
+                    if 'config:' in line.lower(): 
                         config = line.split(":")[1].rstrip("\n").lower()
                         break
         except Exception as e:
@@ -118,7 +126,7 @@ class MekParser:
         """
         if self.filepath is None:
             raise Exception('No filepath provided!')
-        elif not isinstance(self.filepath, pathlib.Path):
+        elif not os.path.isfile(self.filepath):
             raise TypeError(f'{self.filepath} is not a valid file path!')
         elif not pathlib.Path(self.filepath).is_file():
             raise TypeError(f'{self.filepath} does not exist')
@@ -223,25 +231,22 @@ class MekParser:
             items = [i for i in line.split(":") if i != ""]
             self._unit__fluff__systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
 
-    def parse(self, mtf_file_path: pathlib.Path) -> OrderedDict:
+    def parse(self) -> OrderedDict:
         """
         Generates a structured ordered dictionary of a mek from an arbitrary megamek file.
         :param mtf_file_path: pathlib.Path filepath for a .mtf file.
         :return: An OrderedDict structured megamek file.
         """
-        self.filepath = mtf_file_path
-        self.file_path_check()
         self.__get_config()
-
-        with open(file=self.filepath, encoding='utf8', errors='ignore', mode='r') as f:
-
+        with open(file=self.file, encoding='utf8', errors='ignore', mode='r') as f:
+            # self._unit_config
             if locs := equip_config_lookup.get(self._unit_config):
                 self._unit_locs = [loc for _, loc in locs.items()]
             else:
                 raise ValueError('MegaMek Object Configuration not recognized!')
 
             # All megamek files should start of with these 4 items {file,version,chassis,model}
-            self.unit_data.update({'file': self.filepath.name})
+            self.unit_data.update({'file': self.file})
             line = f.readline()
             self.unit_data.update({'version': self.__split_key_value_pair(line, 'r')})
             line = f.__next__()
@@ -292,5 +297,4 @@ class MekParser:
         self.unit_data.update({"equipment": self._unit__equipment})
         self._unit_fluff.update({'systemmanufacturer': self._unit__fluff__systemmanufacturer})
         self.unit_data.update({'fluff': self._unit_fluff})
-
         return self.unit_data
