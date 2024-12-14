@@ -51,7 +51,7 @@ class MekParser:
 
     """
 
-    def __init__(self, filepath):
+    def __init__(self):
 
         self.unit_data = OrderedDict()
         self._fluff_keys = ['history', 'deployment', 'capabilities', 'overview', 'capabilities', 'manufacturer',
@@ -64,11 +64,11 @@ class MekParser:
         self._unit_locs = dict()
         self._unit_fluff = dict()
         self._unit_config = None
-        self.file = filepath
+        #self.file = filepath
 
 
-        if filepath:
-            self.parse()
+        #if filepath:
+            #self.parse()
 
         
 
@@ -102,13 +102,13 @@ class MekParser:
         if len(items) > 1:
             self.unit_data.update({items[0].lower(): items[1].lower().rstrip("\n")})
 
-    def __get_config(self) -> None:
+    def __get_config(self, file) -> None:
         """
         Finds the config line in the file being parsed to be used in the configue setup step.
         :return: a string to be used in the config lookup function.
         """
         try:
-            with open(file=self.file, encoding='utf8', errors='ignore', mode='r') as f:
+            with open(file, encoding='utf8', errors='ignore', mode='r') as f:
                 # scans the entire file looking for a match on 'config'
                 while line := f.readline():
                     if 'config:' in line.lower(): 
@@ -119,17 +119,17 @@ class MekParser:
 
         self._unit_config = config
 
-    def file_path_check(self) -> None:
+    def file_path_check(self, file) -> None:
         """
         Checks to make sure the file path object passed into the parser exists and is a file.
         :return: None
         """
-        if self.filepath is None:
+        if self.file is None:
             raise Exception('No filepath provided!')
-        elif not os.path.isfile(self.filepath):
-            raise TypeError(f'{self.filepath} is not a valid file path!')
-        elif not pathlib.Path(self.filepath).is_file():
-            raise TypeError(f'{self.filepath} does not exist')
+        elif not os.path.isfile(file):
+            raise TypeError(f'{file} is not a valid file path!')
+        elif not pathlib.Path(file).is_file():
+            raise TypeError(f'{file} does not exist')
 
     def __parse_armor(self, line: str) -> None:
         """
@@ -231,14 +231,14 @@ class MekParser:
             items = [i for i in line.split(":") if i != ""]
             self._unit__fluff__systemmanufacturer.update({items[1].lower(): items[2].rstrip("\n")})
 
-    def parse(self) -> OrderedDict:
+    def parse(self, file) -> OrderedDict:
         """
         Generates a structured ordered dictionary of a mek from an arbitrary megamek file.
         :param mtf_file_path: pathlib.Path filepath for a .mtf file.
         :return: An OrderedDict structured megamek file.
         """
-        self.__get_config()
-        with open(file=self.file, encoding='utf8', errors='ignore', mode='r') as f:
+        self.__get_config(file)
+        with open(file, encoding='utf8', errors='ignore', mode='r') as f:
             # self._unit_config
             if locs := equip_config_lookup.get(self._unit_config):
                 self._unit_locs = [loc for _, loc in locs.items()]
@@ -246,7 +246,7 @@ class MekParser:
                 raise ValueError('MegaMek Object Configuration not recognized!')
 
             # All megamek files should start of with these 4 items {file,version,chassis,model}
-            self.unit_data.update({'file': self.file})
+            self.unit_data.update({'file': file})  # This might cause problems with the file path
             line = f.readline()
             self.unit_data.update({'version': self.__split_key_value_pair(line, 'r')})
             line = f.__next__()
@@ -289,7 +289,7 @@ class MekParser:
                         self.__handle_fluff_and_systemmanufacturer(line)
 
                 except IndexError:
-                    print(f'Could not successfully read line {line} of file {self.filepath}!')
+                    print(f'Could not successfully read line {line} of file {file}!')
 
         # Build final document with all parsed items.
         self.unit_data.update({"armor": self._unit_armor})
